@@ -4,9 +4,9 @@ import json
 fp = Path(__file__).resolve().parent
 
 def load_devices(path):
-    path = f"{fp}/devices.json"
+    full_path = f"{path}/devices.json"
     try:
-        with open(path, newline='') as devices: 
+        with open(full_path, newline='') as devices: 
             d_load = json.load(devices)      
     except(FileNotFoundError):
         print(f"Could not find devices file: {path}")
