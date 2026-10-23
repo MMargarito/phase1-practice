@@ -65,7 +65,7 @@
     "10": {
         "name": "Backup Battery System",
         "type": "Trouble",
-        "zone": none,
+        "zone": null,
         "floor": 3
     }
 
