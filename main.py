@@ -11,6 +11,7 @@ def load_devices(path):
         print(f"Could not find devices file: {path}")
         return []
     else:
+        print(len(d_load))
         return d_load
         
 
@@ -19,6 +20,7 @@ def load_devices(path):
 
 def main():  
     print(load_devices(fp))
+    
 
 
 if __name__ == "__main__":
