@@ -29,7 +29,7 @@
 
     "5":{
         "name": "Manual Pull Station",
-        "type": "Alarm",
+        "type": null,
         "zone": 2,
         "floor": 5
     },
