@@ -9,7 +9,7 @@ def load_devices(path):
             d_load = json.load(devices)      
     except(FileNotFoundError):
         print(f"Could not find devices file: {path}")
-        return []
+        return {}
     else:
         return d_load
         
@@ -18,13 +18,13 @@ def count_by_type(json_file):
     type_count = {}
     for value in json_file.values():
 
-        if value['type'] in type_count:
-            type_count[value['type']] += 1
+        if value.get('type', None) in type_count:
+            type_count[value.get('type', None)] += 1
         else:
-            type_count[value['type']] = 1
+            type_count[value.get('type', None)] = 1
 
     return type_count
-    
+
 
 def main():
     loaded_devices = load_devices(d_path)
