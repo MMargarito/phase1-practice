@@ -36,7 +36,6 @@
 
     "6":{
         "name": "Heat Detector",
-        "type": "Alarm",
         "zone": 3,
         "floor": 5
     },
