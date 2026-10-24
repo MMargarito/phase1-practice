@@ -1,69 +1,69 @@
 {
-    "Smoke Detector":{
-        "id": 1,
+    "1":{
+        "name": "Smoke Detector",
         "type": "Alarm",
         "zone": 4,
         "floor": 1
     },
 
-    "Duct Detector":{
-        "id": 2,
+    "2":{
+        "name": "Duct Detector",
         "type": "Alarm",
         "zone": 3,
         "floor": 2
     },
 
-    "Tamper Switch":{
-        "id": 3,
+    "3":{
+        "name": "Tamper Switch",
         "type": "Supervisory",
         "zone": 4,
         "floor": 1
     },
 
-    "Waterflow Switch":{
-        "id": 4,
+    "4":{
+        "name": "Water Flow Switch",
         "type": "Alarm",
         "zone": 3,
         "floor": 1
     },
 
-    "Manual Pull Station":{
-        "id": 5,
+    "5":{
+        "name": "Manual Pull Station",
         "type": "Alarm",
         "zone": 2,
         "floor": 5
     },
 
-    "Heat Detector":{
-        "id":6,
+    "6":{
+        "name": "Heat Detector",
         "type": "Alarm",
         "zone": 3,
         "floor": 5
     },
 
-    "CO Detector":{
-        "id":7,
+    "7":{
+        "name": "CO Detector",
         "type": "Supervisory",
         "zone": 2,
         "floor": 2
     },
 
-    "NAC": {
-        "id":8,
+    "8": {
+        "name": "NAC",
         "type": "Trouble",
         "zone": 1,
         "floor": 1
     },
 
-    "High/Low Air Pressure Switch": {
-        "id": 9,
+    "9": {
+        "name": "High/Low Air Pressure Switch",
         "type": "Supervisory",
         "zone": 2,
         "floor": 3
     },
 
-    "Backup Battery System": {
-        "id": 10,
+    "10": {
+        "name": "Backup Battery System",
         "type": "Trouble",
         "zone": null,
         "floor": 3
