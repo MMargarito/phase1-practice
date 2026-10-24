@@ -1,11 +1,11 @@
 from pathlib import Path
 import json
 
-fp = Path(__file__).resolve().parent
+d_path = f"{Path(__file__).resolve().parent}/devices.json"
 
 def load_devices(path):
     try:
-        with open(f"{path}/devices.json") as devices: 
+        with open(path) as devices: 
             d_load = json.load(devices)      
     except(FileNotFoundError):
         print(f"Could not find devices file: {path}")
@@ -19,7 +19,7 @@ def load_devices(path):
 
 
 def main():  
-    print(load_devices(fp))
+    print(load_devices(d_path))
     
 
 
