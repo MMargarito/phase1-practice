@@ -59,13 +59,13 @@
         "id": 9,
         "type": "Supervisory",
         "zone": 2,
-        "floor": 3,
+        "floor": 3
     },
 
     "Backup Battery System": {
         "id": 10,
         "type": "Trouble",
-        "zone": none,
+        "zone": null,
         "floor": 3
     }
 
