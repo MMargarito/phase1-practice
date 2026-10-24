@@ -11,16 +11,28 @@ def load_devices(path):
         print(f"Could not find devices file: {path}")
         return []
     else:
-        print(len(d_load))
         return d_load
         
 
+def count_by_type(json_file):
+    type_count = {}
+    for value in json_file.values():
+        
+        if value['type'] in type_count:
+            type_count[value['type']] += 1
+        else:
+            type_count[value['type']] = 1
+
+    return type_count
 
 
+        
+loaded_devices = load_devices(d_path)
 
-def main():  
-    print(load_devices(d_path))
-    
+def main():
+    print(loaded_devices)
+    print(len(loaded_devices))
+    print(count_by_type(loaded_devices))
 
 
 if __name__ == "__main__":
