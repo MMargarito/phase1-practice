@@ -24,16 +24,15 @@ def count_by_type(json_file):
             type_count[value['type']] = 1
 
     return type_count
-
-
-        
-
+    
 
 def main():
     loaded_devices = load_devices(d_path)
+    counted_types = count_by_type(loaded_devices)
     print(loaded_devices)
     print(len(loaded_devices))
-    print(count_by_type(loaded_devices))
+    print(counted_types)
+    print(sum(counted_types.values()) == len(loaded_devices))
 
 
 if __name__ == "__main__":
