@@ -17,11 +17,12 @@ def load_devices(path):
 def count_by_type(json_file):
     type_count = {}
     for value in json_file.values():
+        key = value.get('type')
 
-        if value.get('type', None) in type_count:
-            type_count[value.get('type', None)] += 1
+        if key in type_count:
+            type_count[key] += 1
         else:
-            type_count[value.get('type', None)] = 1
+            type_count[key] = 1
 
     return type_count
 
