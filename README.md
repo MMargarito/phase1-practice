@@ -12,4 +12,4 @@ It does look like we may have a problem in identifying duplicate keys. JSON load
 ###Missing Types###
 
 Missing types are included when using the count_by_type() function. This is to provide clarity on the data that is being processed by the function. 
-Output: {'Alarm': 3, 'Supervisory': 3, None: 2, 'Trouble': 2}  -The None key represents missing types in the data.
+Output: {'Alarm': 3, 'Supervisory': 3, None: 2, 'Trouble': 2}  -The None key represents missing types in the data as well as types that are explicitly null.
