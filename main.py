@@ -17,7 +17,7 @@ def load_devices(path):
 def count_by_type(json_file):
     type_count = {}
     for value in json_file.values():
-        
+
         if value['type'] in type_count:
             type_count[value['type']] += 1
         else:
@@ -27,9 +27,10 @@ def count_by_type(json_file):
 
 
         
-loaded_devices = load_devices(d_path)
+
 
 def main():
+    loaded_devices = load_devices(d_path)
     print(loaded_devices)
     print(len(loaded_devices))
     print(count_by_type(loaded_devices))
