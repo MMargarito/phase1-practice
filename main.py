@@ -30,17 +30,22 @@ def group_by_zone(loaded_devices):
     zone_group = {}
 
     for i in loaded_devices.items():
+
         key = i[1].get('zone')
         zone_group.setdefault(key, []).append(i[0])
 
-    
     return zone_group
 
 
 def main():
     loaded_devices = load_devices(d_path)
     counted_types = count_by_type(loaded_devices)
-    print(group_by_zone(loaded_devices))
+    grouped_zones = group_by_zone(loaded_devices)
+    print(grouped_zones)
+    value_count = 0
+    for values in grouped_zones.values():
+        value_count += len(values)
+    print(value_count)
     # print(loaded_devices)
     # print(len(loaded_devices))
     # print(counted_types)
