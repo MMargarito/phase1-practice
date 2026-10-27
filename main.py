@@ -26,14 +26,25 @@ def count_by_type(json_file):
 
     return type_count
 
+def group_by_zone(loaded_devices):
+    zone_group = {}
+
+    for i in loaded_devices.items():
+        key = i[1].get('zone')
+        zone_group.setdefault(key, []).append(i[0])
+
+    
+    return zone_group
+
 
 def main():
     loaded_devices = load_devices(d_path)
     counted_types = count_by_type(loaded_devices)
-    print(loaded_devices)
-    print(len(loaded_devices))
-    print(counted_types)
-    print(sum(counted_types.values()) == len(loaded_devices))
+    print(group_by_zone(loaded_devices))
+    # print(loaded_devices)
+    # print(len(loaded_devices))
+    # print(counted_types)
+    # print(sum(counted_types.values()) == len(loaded_devices))
 
 
 if __name__ == "__main__":
