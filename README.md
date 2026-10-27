@@ -13,3 +13,7 @@ It does look like we may have a problem in identifying duplicate keys. JSON load
 
 Missing types are included when using the count_by_type() function. This is to provide clarity on the data that is being processed by the function. 
 Output: {'Alarm': 3, 'Supervisory': 3, None: 2, 'Trouble': 2}  -The None key represents missing types in the data as well as types that are explicitly null.
+
+###Grouping by zones###
+
+Use the group_by_zone function to group devices by assigned zones. If a zone is null or a zone is missing the groups key will be None.
