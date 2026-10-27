@@ -47,10 +47,10 @@ def main():
     for values in grouped_zones.values():
         value_count += len(values)
     print(value_count == len(loaded_devices))
-    # print(loaded_devices)
-    # print(len(loaded_devices))
-    # print(counted_types)
-    # print(sum(counted_types.values()) == len(loaded_devices))
+    print(loaded_devices)
+    print(len(loaded_devices))
+    print(counted_types)
+    print(sum(counted_types.values()) == len(loaded_devices))
 
 
 if __name__ == "__main__":
