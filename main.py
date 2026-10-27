@@ -29,10 +29,11 @@ def count_by_type(json_file):
 def group_by_zone(loaded_devices):
     zone_group = {}
 
-    for i in loaded_devices.items():
+    for id, zone in loaded_devices.items():
 
-        key = i[1].get('zone')
-        zone_group.setdefault(key, []).append(i[0])
+         key = zone.get('zone')
+         zone_group.setdefault(key, []).append(id)
+    
 
     return zone_group
 
@@ -45,7 +46,7 @@ def main():
     value_count = 0
     for values in grouped_zones.values():
         value_count += len(values)
-    print(value_count)
+    print(value_count == len(loaded_devices))
     # print(loaded_devices)
     # print(len(loaded_devices))
     # print(counted_types)
