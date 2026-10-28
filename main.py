@@ -39,16 +39,16 @@ def group_by_zone(loaded_devices):
 
 def add_device(loaded_devices, device_id, device):
     new_dict = copy.deepcopy(loaded_devices)
+    new_device = device.copy()
     
     if str(device_id) in loaded_devices:
         print(f'Dictionary unchanged \nDevice id {device_id} is already assigned. Please choose an unassigned id')
-        return loaded_devices
+        return new_dict
+
     else:
-        new_dict[str(device_id)] = device
+        new_dict[str(device_id)] = new_device
 
     return new_dict
-
-
 
 
 def main():
