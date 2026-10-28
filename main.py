@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import copy
 
 d_path = f"{Path(__file__).resolve().parent}/devices.json"
 
@@ -37,11 +38,12 @@ def group_by_zone(loaded_devices):
     return zone_group
 
 def add_device(loaded_devices, device_id, device):
+    new_dict = copy.deepcopy(loaded_devices)
     
     if device_id in loaded_devices:
-        return f'Device id {device_id} is already assigned. Please choose an unassigned id'
+        return f'Dictionary unchanged - {loaded_devices} \nDevice id {device_id} is already assigned. Please choose an unassigned id'
     else:
-        new_dict = loaded_devices[str(device_id)] = device
+        new_dict[str(device_id)] = device
 
     return new_dict
 
@@ -52,12 +54,17 @@ def main():
     loaded_devices = load_devices(d_path)
     counted_types = count_by_type(loaded_devices)
     grouped_zones = group_by_zone(loaded_devices)
-    
-    #Sharing test
+    new_device_dict = add_device(loaded_devices, "11", {'name': {'Elevator Smoke Detector'}, 'type': {'Alarm'}, 'zone':{3}, 'floor':{2}})
+
+    #sharing test
+    new_device_dict['1']['zone'] = 9
+    print('Original Dict')
     print(loaded_devices)
     print('-')
-    print(add_device(loaded_devices, "11", {'name': {'Elevator Smoke Detector'}, 'type': {'Alarm'}, 'zone':{3}, 'floor':{2}}))
+    print('Changed new Dict')
+    print(new_device_dict)
     print('-')
+    print('Orgininal Dict')
     print(loaded_devices)
     
     #grouped_zones test
