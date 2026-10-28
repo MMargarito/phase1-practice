@@ -20,3 +20,6 @@ Use the group_by_zone function to group devices by assigned zones. If a zone is 
 
 ###Duplicate-id error handling###
 I chose to simply return a string saying that the dictionary is unchanged and returning the unchanged dictionary. I didn't choose to raise an error here because no error is raised organically by python if the id is duplicate. Python just overwrites the dictionary entry.
+
+###Converting id entries into strings###
+I've decided to convert id entries into strings rather then rejecting them outright. 
