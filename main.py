@@ -52,12 +52,23 @@ def main():
     loaded_devices = load_devices(d_path)
     counted_types = count_by_type(loaded_devices)
     grouped_zones = group_by_zone(loaded_devices)
+    
+    #Sharing test
+    print(loaded_devices)
+    print('-')
+    print(add_device(loaded_devices, "11", {'name': {'Elevator Smoke Detector'}, 'type': {'Alarm'}, 'zone':{3}, 'floor':{2}}))
+    print('-')
+    print(loaded_devices)
+    
+    #grouped_zones test
     print(grouped_zones)
     value_count = 0
     for values in grouped_zones.values():
         value_count += len(values)
     print(value_count == len(loaded_devices))
-    print(loaded_devices)
+
+    
+    #length of loaded_devices test
     print(len(loaded_devices))
     print(counted_types)
     print(sum(counted_types.values()) == len(loaded_devices))
