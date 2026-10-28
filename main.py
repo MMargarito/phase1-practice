@@ -31,11 +31,21 @@ def group_by_zone(loaded_devices):
 
     for device_id, device_properties in loaded_devices.items():
 
-         key = device_properties.get('zone')
-         zone_group.setdefault(key, []).append(device_id)
+        key = device_properties.get('zone')
+        zone_group.setdefault(key, []).append(device_id)
     
-
     return zone_group
+
+def add_device(loaded_devices, device_id, device):
+    
+    if device_id in loaded_devices:
+        return f'Device id {device_id} is already assigned. Please choose an unassigned id'
+    else:
+        new_dict = loaded_devices[str(device_id)] = device
+
+    return new_dict
+
+
 
 
 def main():
