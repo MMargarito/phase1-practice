@@ -19,7 +19,7 @@ Output: {'Alarm': 3, 'Supervisory': 3, None: 2, 'Trouble': 2}  -The None key rep
 Use the group_by_zone function to group devices by assigned zones. If a zone is null or a zone is missing the group's key will be None.
 
 ###Duplicate-id error handling###
-I chose to simply return a string saying that the dictionary is unchanged and returning the unchanged dictionary. I didn't choose to raise an error here because no error is raised organically by python if the id is duplicate. Python just overwrites the dictionary entry.
+I chose to simply return a string saying that the dictionary is unchanged and returning the unchanged dictionary. I didn't choose to raise an error here because no error is raised organically by python if the id is duplicate. Python just overwrites the dictionary entry. I understand that there is the ability to raise an error anyway, currently the user has no way of knowing if the dictionary changed successfully unless they read the screen. 
 
 ###Converting id entries into strings###
-I've decided to convert id entries into strings rather then rejecting them outright. 
+I've decided to convert id entries into strings rather than rejecting them outright because this allows none strings like None to be treated as place holders and changed later. 
