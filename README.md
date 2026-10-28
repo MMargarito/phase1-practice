@@ -3,6 +3,16 @@ This script loads a json file and counts by type.
 ###Running the script###
 uv run main.py
 
+###Example Output###
+
+Are the original and copied dictionaries the same: False
+{4: ['1', '3'], 3: ['2', '4', '6'], 2: ['5', '7', '9'], 1: ['8'], None: ['10']}
+True
+10
+{'Alarm': 3, 'Supervisory': 3, None: 2, 'Trouble': 2}
+True
+
+
 ###Data Shape###
 
 Data shape was updated to be keyed by id numbers. JSON cannot have keys be integers so the number is a string currently. This is okay because we never need to do math with the actual number the id represents.
