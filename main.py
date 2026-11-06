@@ -50,6 +50,26 @@ def add_device(loaded_devices, device_id, device):
 
     return new_dict
 
+def devices_to_rows(devices):
+    new_list = []
+
+    for device_id, device_properties in devices.items():
+        new_dict = {"id": device_id}
+        for properties, values in device_properties.items():
+            new_dict[properties] = values
+        
+        new_list.append(new_dict)
+
+    sorted_list = sorted(new_list, key=lambda  x:(x.get('zone') is None, x.get('zone') if x.get('zone') is not None else 0))
+                                               
+
+    return sorted_list
+
+    
+
+
+
+
 
 def main():
     loaded_devices = load_devices(d_path)
@@ -73,6 +93,12 @@ def main():
     print(len(loaded_devices))
     print(counted_types)
     print(sum(counted_types.values()) == len(loaded_devices))
+
+    #devices_to_rows test
+    print(devices_to_rows(loaded_devices))
+    print(len(devices_to_rows(loaded_devices)))
+    #Check to make sure loaded_devices is unchanged when passing through devices_to_rows
+    print(devices_to_rows(loaded_devices) == loaded_devices)
 
 
 if __name__ == "__main__":
