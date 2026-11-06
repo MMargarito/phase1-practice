@@ -51,12 +51,14 @@ def add_device(loaded_devices, device_id, device):
     return new_dict
 
 def devices_to_rows(devices):
+    prop_list = ["id", "name", "type", "zone", "floor"]
     new_list = []
 
     for device_id, device_properties in devices.items():
         new_dict = {"id": device_id}
-        for properties, values in device_properties.items():
-            new_dict[properties] = values
+        for prop in prop_list:
+            if prop != "id":
+                new_dict[prop] = device_properties.get(prop)
         
         new_list.append(new_dict)
 
