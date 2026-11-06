@@ -60,7 +60,7 @@ def devices_to_rows(devices):
         
         new_list.append(new_dict)
 
-    sorted_list = sorted(new_list, key=lambda  x:(x.get('zone') is None, x.get('zone') if x.get('zone') is not None else 0))
+    sorted_list = sorted(new_list, key=lambda  x:(x.get('zone') is None, x.get('zone') if x.get('zone') is not None else 0, int(x.get('id'))))
                                                
 
     return sorted_list
@@ -90,11 +90,11 @@ def main():
     print(sum(counted_types.values()) == len(loaded_devices))
 
     #devices_to_rows test
-    print(loaded_devices)
+    # print(loaded_devices)
     print(devices_to_rows(loaded_devices))
     print(len(devices_to_rows(loaded_devices)))
     #Check to make sure loaded_devices is unchanged when passing through devices_to_rows
-    print(loaded_devices)
+    # print(loaded_devices)
     print(devices_to_rows(loaded_devices) == loaded_devices)
 
 
