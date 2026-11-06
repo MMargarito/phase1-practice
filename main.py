@@ -65,11 +65,6 @@ def devices_to_rows(devices):
 
     return sorted_list
 
-    
-
-
-
-
 
 def main():
     loaded_devices = load_devices(d_path)
@@ -95,9 +90,11 @@ def main():
     print(sum(counted_types.values()) == len(loaded_devices))
 
     #devices_to_rows test
+    print(loaded_devices)
     print(devices_to_rows(loaded_devices))
     print(len(devices_to_rows(loaded_devices)))
     #Check to make sure loaded_devices is unchanged when passing through devices_to_rows
+    print(loaded_devices)
     print(devices_to_rows(loaded_devices) == loaded_devices)
 
 
