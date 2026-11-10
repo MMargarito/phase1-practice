@@ -86,11 +86,6 @@ def write_devices_csv(devices, path):
     return "Devices successfully written to file."
 
  
-    
-
-    
-        
-
 def main():
     loaded_devices = load_devices(d_path)
     counted_types = count_by_type(loaded_devices)
@@ -107,21 +102,23 @@ def main():
     value_count = 0
     for values in grouped_zones.values():
         value_count += len(values)
-    print(value_count == len(loaded_devices))
+    print(f'Does grouped_zones group all zones? {value_count == len(loaded_devices)}')
 
     
     #length of loaded_devices test
     print(len(loaded_devices))
     print(counted_types)
-    print(sum(counted_types.values()) == len(loaded_devices))
+    print(f'Does counted_types count all types: {sum(counted_types.values()) == len(loaded_devices)}')
 
     #devices_to_rows test
     # print(loaded_devices)
-    print(devices_to_rows(loaded_devices))
+    before = copy.deepcopy(loaded_devices)
+    devices_to_rows(loaded_devices)
+    after = loaded_devices
+    print(f'Is loaded_devices unchanged? {before == after}')
     print(len(devices_to_rows(loaded_devices)))
     #Check to make sure loaded_devices is unchanged when passing through devices_to_rows
     # print(loaded_devices)
-    print(devices_to_rows(loaded_devices) == loaded_devices)
     
     #Testing write_devices_csv
     print(write_devices_csv(sorted_devices, csv_path))
