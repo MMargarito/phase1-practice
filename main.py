@@ -91,7 +91,7 @@ def main():
     counted_types = count_by_type(loaded_devices)
     grouped_zones = group_by_zone(loaded_devices)
     new_device_dict = add_device(loaded_devices, "11", {'name': 'Elevator Smoke Detector', 'type': 'Alarm', 'zone':3, 'floor':2})
-    sorted_devices = devices_to_rows(loaded_devices)
+    
 
     #sharing test
     new_device_dict['1']['zone'] = 9
@@ -110,15 +110,12 @@ def main():
     print(counted_types)
     print(f'Does counted_types count all types: {sum(counted_types.values()) == len(loaded_devices)}')
 
-    #devices_to_rows test
-    # print(loaded_devices)
+    #Check to make sure loaded_devices is unchanged when passing through devices_to_rows
     before = copy.deepcopy(loaded_devices)
-    devices_to_rows(loaded_devices)
+    sorted_devices = devices_to_rows(loaded_devices)
     after = loaded_devices
     print(f'Is loaded_devices unchanged? {before == after}')
     print(len(devices_to_rows(loaded_devices)))
-    #Check to make sure loaded_devices is unchanged when passing through devices_to_rows
-    # print(loaded_devices)
     
     #Testing write_devices_csv
     print(write_devices_csv(sorted_devices, csv_path))
