@@ -1,8 +1,11 @@
 from pathlib import Path
 import json
 import copy
+import csv
 
 d_path = f"{Path(__file__).resolve().parent}/devices.json"
+csv_path = f"{Path(__file__).resolve().parent}/devices.csv"
+
 
 def load_devices(path):
     try:
@@ -67,12 +70,33 @@ def devices_to_rows(devices):
 
     return sorted_list
 
+def write_devices_csv(devices, path):
+
+    try:
+        with open(path, mode='w', newline='') as csvfile:
+            fieldnames = ["id", "name", "type", "zone", "floor"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for device in devices:
+                writer.writerow(device)
+    except FileNotFoundError:
+        print(f"Could not find csv file: {path}")
+        return f"Devices not written to file: {path}"
+
+    return "Devices successfully written to file."
+
+ 
+    
+
+    
+        
 
 def main():
     loaded_devices = load_devices(d_path)
     counted_types = count_by_type(loaded_devices)
     grouped_zones = group_by_zone(loaded_devices)
     new_device_dict = add_device(loaded_devices, "11", {'name': 'Elevator Smoke Detector', 'type': 'Alarm', 'zone':3, 'floor':2})
+    sorted_devices = devices_to_rows(loaded_devices)
 
     #sharing test
     new_device_dict['1']['zone'] = 9
@@ -98,7 +122,9 @@ def main():
     #Check to make sure loaded_devices is unchanged when passing through devices_to_rows
     # print(loaded_devices)
     print(devices_to_rows(loaded_devices) == loaded_devices)
-
+    
+    #Testing write_devices_csv
+    print(write_devices_csv(sorted_devices, csv_path))
 
 if __name__ == "__main__":
     main()
