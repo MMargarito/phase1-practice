@@ -94,10 +94,11 @@ def write_devices_csv(devices, path):
     
     except FileNotFoundError:
         print(f"Error: The directory path for '{path}' is invalid or could not be found.")
-        return False
+        
     except (ValueError, TypeError) as e:
         print(f"Data structure error (check dictionary keys and row types): {e}")
-        return False
+        
+    return False
     
 
  
