@@ -95,6 +95,32 @@ def write_devices_csv(devices, path):
         print(f"Operating System Error: {e}")
         
     return False
+
+def read_devices_csv(path):
+    new_dict = {}
+
+    try:
+        with open(path, mode='r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile, quoting=csv.QUOTE_NOTNULL)
+            for row in reader:
+
+                if row.get('zone') is not None:
+                    row['zone'] = int(row['zone'])
+                else:
+                    row['zone'] = None
+                
+                if row.get('floor') is not None:
+                    row['floor'] = int(row['floor'])
+                else:
+                    row['floor'] = None
+
+                new_dict.update({row['id']: {'name': row['name'], 'type': row['type'], 'zone':row['zone'], 'floor':row['floor']}})
+                
+    except FileNotFoundError:
+        print(f"Could not find devices file: {path}")
+        return {}
+
+    return new_dict
     
 
  
@@ -131,6 +157,14 @@ def main():
     
     #Testing write_devices_csv
     write_devices_csv(sorted_devices, csv_path)
+
+    r_devices = read_devices_csv(csv_path)
+    #Checking to see if type conversion worked
+    print(type(r_devices['8']['zone']), type(r_devices['8']['floor']))
+    #printing the dictionary returned by read_devices_csv 
+    print(r_devices)
+    print(r_devices == loaded_devices)
+
 
 if __name__ == "__main__":
     main()
