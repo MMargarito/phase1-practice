@@ -102,31 +102,30 @@ def read_devices_csv(path):
     try:
         with open(path, mode='r', newline='') as csvfile:
             reader = csv.DictReader(csvfile, quoting=csv.QUOTE_NOTNULL)
-            for row in reader:
+            try:
+                for row in reader:
+                    #int_or_none() takes the row value and converts it to an int if the value is not None.
+                    row['zone'] = int_or_none(row['zone'])
+                    row['floor'] = int_or_none(row['floor'])
+                    
+                    new_dict.update({row['id']: {'name': row['name'], 'type': row['type'], 'zone':row['zone'], 'floor':row['floor']}})
 
-                row['zone'] = int_or_none(row['zone'])
-                row['floor'] = int_or_none(row['floor'])
+            except ValueError as e:
+                print(f"Row:{row} skipped: {e}")
                 
-                new_dict.update({row['id']: {'name': row['name'], 'type': row['type'], 'zone':row['zone'], 'floor':row['floor']}})
                 
-
-
     except FileNotFoundError:
         print(f"Could not find devices file: {path}")
         return {}
 
-    except ValueError as e:
-        print(f"Row:{row} skipped: {e}")
-        
-
     return new_dict
     
-def int_or_none(row):
+def int_or_none(value):
 
-    if row is not None:
-        row = int(row)
+    if value is not None:
+        value = int(value)
     
-    return row
+    return value
  
 def main():
     loaded_devices = load_devices(d_path)
@@ -163,10 +162,10 @@ def main():
     # write_devices_csv(sorted_devices, csv_path)
 
     r_devices = read_devices_csv(csv_path)
+    print(r_devices)
     #Checking to see if type conversion worked
     print(type(r_devices['8']['zone']), type(r_devices['8']['floor']))
-    #printing the dictionary returned by read_devices_csv 
-    print(r_devices)
+    #Checking if data remained consitent throughout roundtrip.
     print(r_devices == loaded_devices)
 
 
