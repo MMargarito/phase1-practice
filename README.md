@@ -35,7 +35,7 @@ I chose to simply return a string saying that the dictionary is unchanged and re
 I've decided to convert id entries into strings rather than rejecting them outright because this allows non-strings like None to be treated as place holders and changed later. 
 
 ###Add Device###
-add_device() uses .copy() and copy.deepcopy to make copies of device which is a dictionary and the list of nested dictionaires to add a device to a new list without altering the inputs.
+add_device() uses .copy() and copy.deepcopy to make copies of device which is a dictionary and the list of nested dictionaries to add a device to a new list without altering the inputs.
 
 ###Device to Rows###
 This function creates a new list of devices where their device id is now a key, value pair in their respective dictionary. It also sorts the list by zone assignment in ascending order where zones that have no value are placed at the end of the list.
@@ -47,4 +47,4 @@ This takes the a list of dictionaries and writes them to a csv file. We are retu
 The read_devices_csv() reads the device csv file from the path. It converts all rows into key:value pairs where the keys are the id's and the values are a dictionary of each devices properties. We convert all empty cells into None and zone and floor into ints. We except ValueErrors, we are choosing to handle the exception by printing the row and the error. This allows for the rest of the file to be read excluding the row with the error. Printing the row with the error allows the user to understand why the row was not read.
 
 ###Why null is used in the devices.json###
-CSV can't tell a misisng key from a null, so the data in devices.json uses null for "unknown".
+CSV can't tell a missing key from a null, so the data in devices.json uses null for "unknown".
