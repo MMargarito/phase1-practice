@@ -116,7 +116,7 @@ def read_devices_csv(path):
         return {}
 
     except ValueError as e:
-        print(f"{row}: {e}")
+        print(f"Row:{row} skipped: {e}")
         
 
     return new_dict
