@@ -102,16 +102,17 @@ def read_devices_csv(path):
     try:
         with open(path, mode='r', newline='') as csvfile:
             reader = csv.DictReader(csvfile, quoting=csv.QUOTE_NOTNULL)
-            try:
-                for row in reader:
+            
+            for row in reader:
+                try:
                     #int_or_none() takes the row value and converts it to an int if the value is not None.
                     row['zone'] = int_or_none(row['zone'])
                     row['floor'] = int_or_none(row['floor'])
                     
                     new_dict.update({row['id']: {'name': row['name'], 'type': row['type'], 'zone':row['zone'], 'floor':row['floor']}})
 
-            except ValueError as e:
-                print(f"Row:{row} skipped: {e}")
+                except ValueError as e:
+                    print(f"Row:{row} skipped: {e}")
                 
                 
     except FileNotFoundError:
