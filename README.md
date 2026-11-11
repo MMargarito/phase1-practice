@@ -33,3 +33,12 @@ I chose to simply return a string saying that the dictionary is unchanged and re
 
 ###Converting id entries into strings###
 I've decided to convert id entries into strings rather than rejecting them outright because this allows non-strings like None to be treated as place holders and changed later. 
+
+###Add Device###
+add_device() uses .copy() and copy.deepcopy to make copies of device which is a dictionary and the list of nested dictionaires to add a device to a new list without altering the inputs.
+
+###Device to Rows###
+This function creates a new list of devices where their device id is now a key, value pair in their respective dictionary. It also sorts the list by zone assignment in ascending order where zones that have no value are placed at the end of the list.
+
+###Write Device CSV### 
+This takes the a list of dictionaries and writes them to a csv file. We are returning True or False for success of failure of writing to CSV. This is so a future function that relies on the write_device_csv() will be able to pivot correctly based on its returned value.

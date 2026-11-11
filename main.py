@@ -5,6 +5,8 @@ import csv
 
 d_path = f"{Path(__file__).resolve().parent}/devices.json"
 csv_path = f"{Path(__file__).resolve().parent}/devices.csv"
+#Names of headers for CSV file and names of keys in device dictionaries
+fieldnames = ["id", "name", "type", "zone", "floor"]
 
 
 def load_devices(path):
@@ -74,16 +76,29 @@ def write_devices_csv(devices, path):
 
     try:
         with open(path, mode='w', newline='') as csvfile:
-            fieldnames = ["id", "name", "type", "zone", "floor"]
+            
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
+            written_row_count = 0
             for device in devices:
                 writer.writerow(device)
-    except FileNotFoundError:
-        print(f"Could not find csv file: {path}")
-        return f"Devices not written to file: {path}"
+                written_row_count += 1
+            print(f"{written_row_count} rows written successfully")
+            return True
 
-    return "Devices successfully written to file."
+    except UnboundLocalError:
+        print(f"Error: Folder does not Exist")
+
+    except OSError as e:
+        print(f"Operating System Error: {e}")
+    
+    except FileNotFoundError:
+        print(f"Error: The directory path for '{path}' is invalid or could not be found.")
+        return False
+    except (ValueError, TypeError) as e:
+        print(f"Data structure error (check dictionary keys and row types): {e}")
+        return False
+    
 
  
 def main():
@@ -115,10 +130,10 @@ def main():
     sorted_devices = devices_to_rows(loaded_devices)
     after = loaded_devices
     print(f'Is loaded_devices unchanged? {before == after}')
-    print(len(devices_to_rows(loaded_devices)))
+    # len(devices_to_rows(loaded_devices))
     
     #Testing write_devices_csv
-    print(write_devices_csv(sorted_devices, csv_path))
+    write_devices_csv(sorted_devices, csv_path)
 
 if __name__ == "__main__":
     main()
