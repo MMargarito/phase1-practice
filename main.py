@@ -104,25 +104,29 @@ def read_devices_csv(path):
             reader = csv.DictReader(csvfile, quoting=csv.QUOTE_NOTNULL)
             for row in reader:
 
-                if row.get('zone') is not None:
-                    row['zone'] = int(row['zone'])
-                else:
-                    row['zone'] = None
+                row['zone'] = int_or_none(row['zone'])
+                row['floor'] = int_or_none(row['floor'])
                 
-                if row.get('floor') is not None:
-                    row['floor'] = int(row['floor'])
-                else:
-                    row['floor'] = None
-
                 new_dict.update({row['id']: {'name': row['name'], 'type': row['type'], 'zone':row['zone'], 'floor':row['floor']}})
                 
+
+
     except FileNotFoundError:
         print(f"Could not find devices file: {path}")
         return {}
 
+    except ValueError as e:
+        print(f"{row}: {e}")
+        
+
     return new_dict
     
+def int_or_none(row):
 
+    if row is not None:
+        row = int(row)
+    
+    return row
  
 def main():
     loaded_devices = load_devices(d_path)
@@ -156,7 +160,7 @@ def main():
     # len(devices_to_rows(loaded_devices))
     
     #Testing write_devices_csv
-    write_devices_csv(sorted_devices, csv_path)
+    # write_devices_csv(sorted_devices, csv_path)
 
     r_devices = read_devices_csv(csv_path)
     #Checking to see if type conversion worked
