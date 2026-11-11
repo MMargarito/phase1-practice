@@ -37,6 +37,7 @@
     "6":{
         "name": "Heat Detector",
         "zone": 3,
+        "type": null,
         "floor": 5
     },
 
