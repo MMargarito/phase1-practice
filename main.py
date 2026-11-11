@@ -85,18 +85,15 @@ def write_devices_csv(devices, path):
                 written_row_count += 1
             print(f"{written_row_count} rows written successfully")
             return True
-
-    except UnboundLocalError:
-        print(f"Error: Folder does not Exist")
-
-    except OSError as e:
-        print(f"Operating System Error: {e}")
     
     except FileNotFoundError:
         print(f"Error: The directory path for '{path}' is invalid or could not be found.")
         
     except (ValueError, TypeError) as e:
         print(f"Data structure error (check dictionary keys and row types): {e}")
+
+    except OSError as e:
+        print(f"Operating System Error: {e}")
         
     return False
     
