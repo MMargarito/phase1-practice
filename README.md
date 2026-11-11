@@ -47,4 +47,4 @@ This takes the a list of dictionaries and writes them to a csv file. We are retu
 The read_devices_csv() reads the device csv file from the path. It converts all rows into key:value pairs where the keys are the id's and the values are a dictionary of each devices properties. We convert all empty cells into None and zone and floor into ints. We except ValueErrors, we are choosing to handle the exception by printing the row and the error. This allows for the rest of the file to be read excluding the row with the error. Printing the row with the error allows the user to understand why the row was not read.
 
 ###Why null is used in the devices.json###
-CSV can't tell a misisng key from a null, so the data uses null for "unknown".
+CSV can't tell a misisng key from a null, so the data in devices.json uses null for "unknown".
