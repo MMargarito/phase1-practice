@@ -156,6 +156,7 @@ def main():
     before = copy.deepcopy(loaded_devices)
     sorted_devices = devices_to_rows(loaded_devices)
     after = loaded_devices
+    print(sorted_devices)
     print(f'Is loaded_devices unchanged? {before == after}')
     # len(devices_to_rows(loaded_devices))
     
