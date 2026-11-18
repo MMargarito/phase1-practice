@@ -22,7 +22,8 @@ def test_answer_devices_to_rows_input_unchanged():
 #Prediction -> I predict this will pass because our logic in add_device() will return the new dict with the added device.
 def test_answer_add_device_in_result():
     add_d_result = add_device(devices_dict, "11", {'name': 'Elevator Smoke Detector', 'type': 'Alarm', 'zone':3, 'floor':2})
-    assert "11" in add_d_result
+    add_d_result['1']['zone'] = 3
+    assert add_d_result["11"] == {'name': 'Elevator Smoke Detector', 'type': 'Alarm', 'zone':3, 'floor':2}
 
 devices_dict_copy = copy.deepcopy(devices_dict)
 #Prediction -> I predict this will pass because we use copy.deepcopy() within the add device function.
@@ -33,6 +34,6 @@ def test_answer_add_device_dict_unchanged():
 #Prediction -> I predict this will pass because we use .copy() for the new_device in add_device()
 def test_answer_add_device_result_unchanged():
     new_device = {'name': 'Elevator Smoke Detector', 'type': 'Alarm', 'zone':3, 'floor':2}
-    new_dict_device = add_device(devices_dict, "11", {'name': 'Elevator Smoke Detector', 'type': 'Alarm', 'zone':3, 'floor':2})
+    new_dict_device = add_device(devices_dict, "11", new_device)
     new_device['zone'] = 9
-    assert new_dict_device['11'] != new_device 
+    assert new_dict_device['11']['zone'] == 3
