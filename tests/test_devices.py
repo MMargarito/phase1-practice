@@ -8,6 +8,11 @@ fieldnames = ["id", "name", "type", "zone", "floor"]
 devices_dict = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "3": {"name": "Waterflow Switch", "type": "" , "zone": 3, "floor": 1}, "4":{"name": "Tamper Switch", "type": None, "zone": 1, "floor": 1}, "5": {"name": "CO detector", "zone": 4, "floor": 1}}
 devices_dict_2 = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": None, "floor": 1}, "10": {"name": "CO detector", "zone": 4, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4, "floor": 1}}
 devices_dict_3 = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": 3, "floor": 1}, "10": {"name": "CO detector", "type": "Alarm", "zone": 4, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4, "floor": 1}}
+csv_txt = """id,name,type,zone,floor
+1,Smoke Detector,Alarm,2,1
+2,CO Detector,Supervisory,x,1
+3,Manual Pull Station,Alarm,2,1"""
+
 
 def test_answer_count_by_type():
     assert count_by_type(devices_dict) == {"Alarm": 2, None: 2, "": 1}
@@ -54,6 +59,16 @@ def test_answer_csv_round_trip(tmp_path):
     loaded_devices = devices_to_rows(devices_dict_3)
     write_devices_csv(loaded_devices, p)          
     assert read_devices_csv(p) == devices_dict_3
-    
+
+#Predicton -> This will pass. read_devices_csv() will skip the bad zone in csv_txt.    
+def test_answer_csv_write_bad_row(tmp_path):
+    d = tmp_path/"txt"
+    d.mkdir()
+    p = d / "tmp.csv"
+    p.write_text(csv_txt)
+    assert read_devices_csv(p) == {"1":{"name":"Smoke Detector", "type":"Alarm", "zone":2, "floor":1}, "3":{"name":"Manual Pull Station", "type":"Alarm", "zone":2, "floor":1}}
+
+
+
     
 
