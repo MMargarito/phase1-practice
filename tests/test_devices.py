@@ -75,9 +75,12 @@ def test_answer_csv_failed_write(tmp_path):
     loaded_devices = devices_to_rows(devices_dict_3)
     assert write_devices_csv(loaded_devices, d/"Folder"/"file.csv") == False
 
+d_copy = copy.deepcopy(devices_dict_floors)
 #Expected value from devices_dict_floors should be [1,4,10] when sorted by integers.
 def test_answer_devices_on_floor():
-    assert devices_on_floor(devices_dict_floors, 1) == ["1","4","10"]
+    assert devices_on_floor(d_copy, 1) == ["1","4","10"]
+    assert devices_on_floor(d_copy, 5) == []
+    assert devices_dict_floors == d_copy
 
 
 
