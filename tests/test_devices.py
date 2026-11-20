@@ -8,7 +8,7 @@ fieldnames = ["id", "name", "type", "zone", "floor"]
 devices_dict = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "3": {"name": "Waterflow Switch", "type": "" , "zone": 3, "floor": 1}, "4":{"name": "Tamper Switch", "type": None, "zone": 1, "floor": 1}, "5": {"name": "CO detector", "zone": 4, "floor": 1}}
 devices_dict_2 = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": None, "floor": 1}, "10": {"name": "CO detector", "zone": 4, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4, "floor": 1}}
 devices_dict_3 = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": 3, "floor": 1}, "10": {"name": "CO detector", "type": "Alarm", "zone": 4, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4, "floor": 1}}
-devices_dict_floors = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": 3, "floor": 1}, "10": {"name": "CO detector", "type": "Alarm", "zone": 4, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4}}
+devices_dict_floors = {"10": {"name": "CO detector", "type": "Alarm", "zone": 4, "floor": 1}, "1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": 3, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4}}
 csv_txt = """id,name,type,zone,floor
 1,Smoke Detector,Alarm,2,1
 2,CO Detector,Supervisory,x,1
@@ -77,7 +77,7 @@ def test_answer_csv_failed_write(tmp_path):
 
 #Expected value from devices_dict_floors should be [1,4,10] when sorted by integers.
 def test_answer_devices_on_floor():
-    assert devices_on_floor(devices_dict_floors, 1) == [1,4,10]
+    assert devices_on_floor(devices_dict_floors, 1) == ["1","4","10"]
 
 
 
