@@ -68,7 +68,11 @@ def test_answer_csv_write_bad_row(tmp_path):
     p.write_text(csv_txt)
     assert read_devices_csv(p) == {"1":{"name":"Smoke Detector", "type":"Alarm", "zone":2, "floor":1}, "3":{"name":"Manual Pull Station", "type":"Alarm", "zone":2, "floor":1}}
 
-
-
+#Prediction -> I write_devices_csv() will attempt to write to a folder in a path but because the folder does not exist it will return False
+def test_answer_csv_failed_write(tmp_path):
+    d = tmp_path
+    loaded_devices = devices_to_rows(devices_dict_3)
+    assert write_devices_csv(loaded_devices, d) == False
+    
     
 
