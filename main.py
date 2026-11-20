@@ -133,9 +133,9 @@ def devices_on_floor(devices, floor):
     new_list = []
     for device_id, devices_properties in d_copy.items():
         if devices_properties.get('floor') == floor:
-            new_list.append(int(device_id))
-    new_list.sort()
-    return new_list
+            new_list.append(device_id)
+    sorted_list = sorted(new_list, key=int)
+    return sorted_list
  
 def main():
     loaded_devices = load_devices(d_path)
