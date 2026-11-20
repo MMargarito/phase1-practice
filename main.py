@@ -127,6 +127,15 @@ def int_or_none(value):
         value = int(value)
     
     return value
+
+def devices_on_floor(devices, floor):
+    d_copy = copy.deepcopy(devices)
+    new_list = []
+    for device_id, devices_properties in d_copy.items():
+        if devices_properties.get('floor') == floor:
+            new_list.append(int(device_id))
+    new_list.sort()
+    return new_list
  
 def main():
     loaded_devices = load_devices(d_path)
