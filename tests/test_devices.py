@@ -61,7 +61,7 @@ def test_answer_csv_round_trip(tmp_path):
     assert read_devices_csv(p) == devices_dict_3
 
 #Predicton -> This will pass. read_devices_csv() will skip the bad zone in csv_txt.    
-def test_answer_csv_write_bad_row(tmp_path):
+def test_answer_csv_read_bad_row(tmp_path):
     d = tmp_path/"txt"
     d.mkdir()
     p = d / "tmp.csv"
@@ -72,7 +72,7 @@ def test_answer_csv_write_bad_row(tmp_path):
 def test_answer_csv_failed_write(tmp_path):
     d = tmp_path
     loaded_devices = devices_to_rows(devices_dict_3)
-    assert write_devices_csv(loaded_devices, d) == False
+    assert write_devices_csv(loaded_devices, d/"Folder"/"file.csv") == False
     
     
 
