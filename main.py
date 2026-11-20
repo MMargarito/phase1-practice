@@ -171,6 +171,7 @@ def main():
     print(r_devices == loaded_devices)
 
 
+
 if __name__ == "__main__":
     main()
 

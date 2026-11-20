@@ -1,8 +1,13 @@
-from main import count_by_type, devices_to_rows, add_device
+from main import count_by_type, devices_to_rows, add_device, write_devices_csv, read_devices_csv
 import copy
+import os
+import csv
+import pathlib
 
+fieldnames = ["id", "name", "type", "zone", "floor"]
 devices_dict = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "3": {"name": "Waterflow Switch", "type": "" , "zone": 3, "floor": 1}, "4":{"name": "Tamper Switch", "type": None, "zone": 1, "floor": 1}, "5": {"name": "CO detector", "zone": 4, "floor": 1}}
 devices_dict_2 = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": None, "floor": 1}, "10": {"name": "CO detector", "zone": 4, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4, "floor": 1}}
+devices_dict_3 = {"1": {"name": "Manual Pull Station", "type": "Alarm", "zone": 2, "floor": 1}, "2": {"name": "Smoke Detector", "type": "Alarm", "zone": 1, "floor": 2}, "4":{"name": "Tamper Switch", "type": "Supervisory", "zone": 3, "floor": 1}, "10": {"name": "CO detector", "type": "Alarm", "zone": 4, "floor": 1}, "3": {"name": "Waterflow Switch", "type": "Alarm" , "zone": 4, "floor": 1}}
 
 def test_answer_count_by_type():
     assert count_by_type(devices_dict) == {"Alarm": 2, None: 2, "": 1}
@@ -40,3 +45,15 @@ def test_answer_add_device_result_unchanged():
     new_dict_device = add_device(devices_dict, "11", new_device)
     new_device['zone'] = 9
     assert new_dict_device['11']['zone'] == 3
+
+#Prediction -> I believe the assert will pass because we are taking the data transforming it into a list of dictionaries with id: field. Then, we are writing those to a csv file, then reading those back while converting them to the original data shape 
+def test_answer_csv_round_trip(tmp_path):
+    d = tmp_path / "csv"
+    d.mkdir()
+    p = d / "tmp.csv"
+    loaded_devices = devices_to_rows(devices_dict_3)
+    write_devices_csv(loaded_devices, p)          
+    assert read_devices_csv(p) == devices_dict_3
+    
+    
+
