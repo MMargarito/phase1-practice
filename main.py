@@ -129,9 +129,8 @@ def int_or_none(value):
     return value
 
 def devices_on_floor(devices, floor):
-    d_copy = copy.deepcopy(devices)
     new_list = []
-    for device_id, devices_properties in d_copy.items():
+    for device_id, devices_properties in devices.items():
         if devices_properties.get('floor') == floor:
             new_list.append(device_id)
     sorted_list = sorted(new_list, key=int)

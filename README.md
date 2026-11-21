@@ -48,3 +48,34 @@ The read_devices_csv() reads the device csv file from the path. It converts all 
 
 ###Why null is used in the devices.json###
 CSV can't tell a missing key from a null, so the data in devices.json uses null for "unknown".
+
+
+###Pytest###
+
+How to run: uv run pytest
+
+###test_answer_count_by_type()###
+This test takes in devices_dict and counts the amount of devices with the same type. A type with None or a type that is missing are treated separately.
+
+###test_answer_devices_to_rows_order()###
+This test tests the devices_to_rows() function in main.py. It confirms that the function is returning the rows in ascending order, sorted by zone. Zones with None appear at the end of the list.
+
+###test_answer_devices_to_rows_input_unchanged()###
+This test checks whether or not the original input is changed when passed through the devices_to_rows() function.
+
+###test_answer_add_device_in_result()###
+This test checks if the device is included in the result returned by the function add_device() in main.py. It also checks to make sure the device was added completely, and that the function doesn't erase the data it's adding to.
+
+###test_answer_add_device_dict_unchanged()###
+Checks that the add_device() function does not alter the original dict passed to it.
+test_answer_add_device_result_unchanged() (Fixed typo: ansawer -> answer)
+Checks to make sure changing the original device does not change the device stored in the dictionary.
+
+###test_answer_csv_round_trip()###
+Checks to make sure devices_dict correctly goes through devices_to_rows() -> write_devices_csv() -> read_devices_csv(). The devices_dict should be the same as it was when it originally entered devices_to_rows(). This test also uses tmp_path to create a temporary directory that is specific to the test.
+
+###test_answer_csv_failed_write()###
+This checks if write_devices_csv() correctly returns False when faced with a FileNotFoundError.
+
+###test_answer_devices_on_floor()### 
+This checks the devices_on_floor() function in main.py. It checks if the function is sorting the strings as integers, returning a blank list for floors with no devices, and ensuring the original data passed through the function remains unchanged.
