@@ -2,6 +2,7 @@ import httpx
 import copy
 import json
 from pathlib import Path
+import csv
 
 url = "https://api.open-meteo.com/v1/forecast"
 params = {"latitude": 40.70,
@@ -9,6 +10,7 @@ params = {"latitude": 40.70,
           "current": ["temperature_2m", "wind_speed_10m"]}
 
 sites_path = f"{Path(__file__).resolve().parent}/sites.json"
+csv_path = f"{Path(__file__).resolve().parent}/weather.csv"
 
 def load_sites(sites_path):
     try:
@@ -33,7 +35,7 @@ def transform(data, site):
             "wind_kmh": data["current"]["wind_speed_10m"]}
 
 def caller(site_json, url):
-    weather_dict = []
+    weather_list = []
     site_dict = load_sites(sites_path)
 
     for site in site_dict.values():
@@ -42,27 +44,51 @@ def caller(site_json, url):
                                     "longitude": site["longitude"],
                                     "current": ["temperature_2m", "wind_speed_10m"]})
         
-        except(json.JSONDecodeError) as {e}:
+        except(json.JSONDecodeError) as e:
             print(f"Data returned another Data form: {e}")
         
         except(httpx.HTTPStatusError, httpx.RequestError) as e:
             print(f"Bad request: {e}")
         
         try:
-            weather_dict.append(transform(data, site))
+            weather_list.append(transform(data, site))
         except KeyError as e:
             print(f"Data missing expected key: {e}")
     
-    return weather_dict
+    return weather_list
     
+def weather_csv_writer(path, weather_list):
+    fieldnames = ["site", "temp_c", "wind_kmh"]
+    sorted_weather_list = sorted(weather_list, key= lambda x: x["site"])
+    try:
+        with open(path, mode="w", newline="") as weather_csv:
+            writer = csv.DictWriter(weather_csv, fieldnames=fieldnames)
+            writer.writeheader()
+            written_row_count = 0
+            for weather in sorted_weather_list:
+                writer.writerow(weather)
+                written_row_count += 1
+            print(f"{written_row_count}/{len(sorted_weather_list)} rows completed successfully")
+
+    except FileNotFoundError:
+        print(f"Error: The directory path for '{path}' is invalid or could not be found")
+
+    except (ValueError, TypeError) as e:
+        print(f"Data structure error (check dictionary keys and row types): {e}")
+    
+    except OSError as e:
+        print(f"Operating System Error: {e}")
+
 
 def main():
     # data = fetch(url, params)
     # site = {"name": "Queens, New York", "lat":data["latitude"], "lon":data["longitude"]}
     # weather_dict = transform(data, site)
     # print(load_sites(sites_path))
-    print(caller(sites_path, url))
-    
+    w_list = caller(sites_path, url)
+    weather_csv_writer(csv_path, w_list)
+
+
 
 
 if __name__ == "__main__":
