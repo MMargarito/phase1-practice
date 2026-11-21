@@ -43,15 +43,15 @@ def caller(site_json, url):
             data = fetch(url, params={"latitude": site["latitude"],
                                     "longitude": site["longitude"],
                                     "current": ["temperature_2m", "wind_speed_10m"]})
-        
+
+            weather_list.append(transform(data, site))
         except(json.JSONDecodeError) as e:
             print(f"Data returned another Data form: {e}")
         
         except(httpx.HTTPStatusError, httpx.RequestError) as e:
             print(f"Bad request: {e}")
-        
-        try:
-            weather_list.append(transform(data, site))
+            continue
+            
         except KeyError as e:
             print(f"Data missing expected key: {e}")
     
