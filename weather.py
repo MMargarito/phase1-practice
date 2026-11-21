@@ -32,11 +32,36 @@ def transform(data, site):
             "temp_c": data["current"]["temperature_2m"],
             "wind_kmh": data["current"]["wind_speed_10m"]}
 
+def caller(site_json, url):
+    weather_dict = []
+    site_dict = load_sites(sites_path)
+
+    for site in site_dict.values():
+        try:
+            data = fetch(url, params={"latitude": site["latitude"],
+                                    "longitude": site["longitude"],
+                                    "current": ["temperature_2m", "wind_speed_10m"]})
+        
+        except(json.JSONDecodeError) as {e}:
+            print(f"Data returned another Data form: {e}")
+        
+        except(httpx.HTTPStatusError, httpx.RequestError) as e:
+            print(f"Bad request: {e}")
+        
+        try:
+            weather_dict.append(transform(data, site))
+        except KeyError as e:
+            print(f"Data missing expected key: {e}")
+    
+    return weather_dict
+    
+
 def main():
-    data = fetch(url, params)
-    site = {"name": "Queens, New York", "lat":data["latitude"], "lon":data["longitude"]}
-    weather_dict = transform(data, site)
-    print(load_sites(sites_path))
+    # data = fetch(url, params)
+    # site = {"name": "Queens, New York", "lat":data["latitude"], "lon":data["longitude"]}
+    # weather_dict = transform(data, site)
+    # print(load_sites(sites_path))
+    print(caller(sites_path, url))
     
 
 
