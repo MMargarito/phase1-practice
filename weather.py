@@ -44,7 +44,7 @@ def caller(sites_path, url):
             success_count += 1
 
         except(json.JSONDecodeError) as e:
-            print(f"Data returned another Data form {site}: {e}")
+            print(f"Data returned another Data form {site['name']}: {e}")
         
         except httpx.HTTPStatusError as e:
             print(f"Bad request for site: {site['name']}: {e}")
