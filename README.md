@@ -114,8 +114,8 @@ uv run pytest tests/test_weather.py
 
 ### Example Output
 ```text
-Bad request for site: London: Client error '400 Bad Request' for url 'https://open-meteo.com'
-For more information check: https://mozilla.org
+Bad request for site: London: Client error '400 Bad Request' for url 'https://api.open-meteo.com/v1/forecast?latitude=51.5074&longitude=999&current=temperature_2m&current=wind_speed_10m'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
 3 succeeded, 1 failed
 ```
 > **Note:** The London site is intended to fail. `3 succeeded, 1 failed` is the intended correct output.
@@ -130,5 +130,11 @@ For more information check: https://mozilla.org
 }
 ```
 
-### Testing Note
-Please note that the tests do not make live network calls. Weather can change within the hour, so making live calls would be unpredictable and have a negative effect on automated testing. Instead, the tests check the transform function using a sample fetch response.
+### Testing
+
+- **`test_weather_transform_normal()`**: This test the transform function with a normal complete data set called `parsed_data`.
+- **`test_weather_transform_missing_current()`**: This test the transform function with a data set that is missing the `current` field from the data set `parsed_data`.
+- **`test_weather_transform_missing_o_key()`**: This test the transform function with a data set that is missing the `temperature_2m` value from the `current` field from the data set `parsed_data`.
+
+
+> **Note:** Please note that the tests do not make live network calls. Weather can change within the hour, so making live calls would be unpredictable and have a negative effect on automated testing. Instead, the tests check the transform function using a sample fetch response.
