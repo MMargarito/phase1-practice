@@ -5,9 +5,6 @@ from pathlib import Path
 import csv
 
 url = "https://api.open-meteo.com/v1/forecast"
-params = {"latitude": 40.70,
-          "longitude": 13.41,
-          "current": ["temperature_2m", "wind_speed_10m"]}
 
 sites_path = f"{Path(__file__).resolve().parent}/sites.json"
 csv_path = f"{Path(__file__).resolve().parent}/weather.csv"
@@ -34,10 +31,10 @@ def transform(data, site):
             "temp_c": data["current"]["temperature_2m"],
             "wind_kmh": data["current"]["wind_speed_10m"]}
 
-def caller(site_json, url):
+def caller(sites_path, url):
     weather_list = []
     site_dict = load_sites(sites_path)
-
+    success_count = 0
     for site in site_dict.values():
         try:
             data = fetch(url, params={"latitude": site["latitude"],
@@ -45,31 +42,36 @@ def caller(site_json, url):
                                     "current": ["temperature_2m", "wind_speed_10m"]})
 
             weather_list.append(transform(data, site))
+            success_count += 1
         except(json.JSONDecodeError) as e:
-            print(f"Data returned another Data form: {e}")
+            print(f"Data returned another Data form {data}: {e}")
         
-        except(httpx.HTTPStatusError, httpx.RequestError) as e:
-            print(f"Bad request: {e}")
+        except httpx.HTTPStatusError as e:
+            print(f"Bad request for site: {site['name']}: {e}")
             continue
+
+        except httpx.RequestError as e:
+            print(f"No response for site: {site['name']}: {e}")
             
+
         except KeyError as e:
-            print(f"Data missing expected key: {e}")
+            print(f"Data missing expected key for site {site['name']}: {e}")
     
+    print(f"{success_count} succeeded, {len(site_dict) - success_count} failed")
     return weather_list
     
 def weather_csv_writer(path, weather_list):
     fieldnames = ["site", "temp_c", "wind_kmh"]
     sorted_weather_list = sorted(weather_list, key= lambda x: x["site"])
+
     try:
         with open(path, mode="w", newline="") as weather_csv:
             writer = csv.DictWriter(weather_csv, fieldnames=fieldnames)
             writer.writeheader()
-            written_row_count = 0
+    
             for weather in sorted_weather_list:
                 writer.writerow(weather)
-                written_row_count += 1
-            print(f"{written_row_count}/{len(sorted_weather_list)} rows completed successfully")
-
+            
     except FileNotFoundError:
         print(f"Error: The directory path for '{path}' is invalid or could not be found")
 
@@ -81,10 +83,6 @@ def weather_csv_writer(path, weather_list):
 
 
 def main():
-    # data = fetch(url, params)
-    # site = {"name": "Queens, New York", "lat":data["latitude"], "lon":data["longitude"]}
-    # weather_dict = transform(data, site)
-    # print(load_sites(sites_path))
     w_list = caller(sites_path, url)
     weather_csv_writer(csv_path, w_list)
 
