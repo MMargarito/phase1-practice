@@ -1,5 +1,4 @@
 import httpx
-import copy
 import json
 from pathlib import Path
 import csv
@@ -7,7 +6,7 @@ import csv
 url = "https://api.open-meteo.com/v1/forecast"
 
 sites_path = f"{Path(__file__).resolve().parent}/sites.json"
-csv_path = f"{Path(__file__).resolve().parent}/weather.csv"
+csv_path = f"{Path(__file__).resolve().parent}/site_weather.csv"
 
 def load_sites(sites_path):
     try:
@@ -43,30 +42,29 @@ def caller(sites_path, url):
 
             weather_list.append(transform(data, site))
             success_count += 1
+
         except(json.JSONDecodeError) as e:
-            print(f"Data returned another Data form {data}: {e}")
+            print(f"Data returned another Data form {site}: {e}")
         
         except httpx.HTTPStatusError as e:
             print(f"Bad request for site: {site['name']}: {e}")
-            continue
-
+            
         except httpx.RequestError as e:
             print(f"No response for site: {site['name']}: {e}")
             
-
         except KeyError as e:
             print(f"Data missing expected key for site {site['name']}: {e}")
     
     print(f"{success_count} succeeded, {len(site_dict) - success_count} failed")
     return weather_list
     
-def weather_csv_writer(path, weather_list):
+def site_weather_csv_writer(path, weather_list):
     fieldnames = ["site", "temp_c", "wind_kmh"]
     sorted_weather_list = sorted(weather_list, key= lambda x: x["site"])
 
     try:
-        with open(path, mode="w", newline="") as weather_csv:
-            writer = csv.DictWriter(weather_csv, fieldnames=fieldnames)
+        with open(path, mode="w", newline="") as site_weather_csv:
+            writer = csv.DictWriter(site_weather_csv, fieldnames=fieldnames)
             writer.writeheader()
     
             for weather in sorted_weather_list:
@@ -83,8 +81,9 @@ def weather_csv_writer(path, weather_list):
 
 
 def main():
+
     w_list = caller(sites_path, url)
-    weather_csv_writer(csv_path, w_list)
+    site_weather_csv_writer(csv_path, w_list)
 
 
 
