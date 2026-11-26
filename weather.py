@@ -2,13 +2,14 @@ import httpx
 import json
 from pathlib import Path
 import csv
+from typing import Any
 
 url = "https://api.open-meteo.com/v1/forecast"
 
 sites_path = f"{Path(__file__).resolve().parent}/sites.json"
 csv_path = f"{Path(__file__).resolve().parent}/site_weather.csv"
 
-def load_sites(sites_path):
+def load_sites(sites_path:str) -> dict[str, Any]:
     try:
         with open(sites_path) as sites:
             s_load = json.load(sites)
@@ -18,19 +19,19 @@ def load_sites(sites_path):
     else:
         return s_load
 
-def fetch(url, params):
+def fetch(url: str, params: dict[str, str | float | list[str]]) -> dict[str, Any]:
     response = httpx.get(url, params=params, timeout=10) 
     response.raise_for_status()
     data = response.json()
     return data  
 
 
-def transform(data, site):
+def transform(data: dict[str, Any], site:dict[str, str]) -> dict[str, str | float]:
     return {"site": site["name"],
             "temp_c": data["current"]["temperature_2m"],
             "wind_kmh": data["current"]["wind_speed_10m"]}
 
-def caller(sites_path, url):
+def caller(sites_path: str, url: str) -> list[dict[str, str | float]]: 
     weather_list = []
     site_dict = load_sites(sites_path)
     success_count = 0
@@ -58,7 +59,7 @@ def caller(sites_path, url):
     print(f"{success_count} succeeded, {len(site_dict) - success_count} failed")
     return weather_list
     
-def site_weather_csv_writer(path, weather_list):
+def site_weather_csv_writer(path: str, weather_list: list[dict[str, str | float]]) -> None :
     fieldnames = ["site", "temp_c", "wind_kmh"]
     sorted_weather_list = sorted(weather_list, key= lambda x: x["site"])
 
@@ -84,8 +85,7 @@ def main():
 
     w_list = caller(sites_path, url)
     site_weather_csv_writer(csv_path, w_list)
-
-
+    print(w_list)
 
 
 if __name__ == "__main__":
